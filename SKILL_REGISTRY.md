@@ -23,6 +23,19 @@ Central registry for all agent-shared skills.
 | `diagnostics` | System diagnostics and health monitoring | - |
 | `gog` | Google Workspace CLI (Gmail, Calendar, Drive) | - |
 
+### Productivity Skills
+
+| Skill | Description | Added |
+|-------|-------------|-------|
+| `clippy` | Microsoft 365/Outlook CLI via Playwright automation | 2026-02-22 |
+| `himalaya` | CLI email client (IMAP/SMTP) | 2026-02-22 |
+
+### Project-Specific Skills
+
+| Skill | Description | Added |
+|-------|-------------|-------|
+| `founder-mode` | Founder-mode morning briefing documentation | 2026-02-22 |
+
 ### Recon & Coordination Skills
 
 | Skill | Description | Added |
