@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cost-governor"
+version = "0.1.0"
+description = "Cost governor contract: schema validation, runtime invariants, and decision logic."
+requires-python = ">=3.11"
+dependencies = [
+    "jsonschema>=4.20.0",
+    "casbin==1.43.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.4.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["runtime_validator*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

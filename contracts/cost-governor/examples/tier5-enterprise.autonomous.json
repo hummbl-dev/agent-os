@@ -1,0 +1,22 @@
+{
+  "tier": 5,
+  "name": "enterprise-autonomous",
+  "cost_governor": {
+    "currency": "USD",
+    "daily_soft_cap": 500.00,
+    "daily_hard_cap": null,
+    "per_request_cap": null,
+    "reset_timezone": "UTC",
+    "on_soft_cap": "notify-ops",
+    "on_hard_cap": "none",
+    "model_degrade_ladder": [],
+    "allowlist_tasks_under_hard_cap": [],
+    "spend_monitoring": {
+      "enabled": true,
+      "alert_emails": ["cto@example.com", "ops-team@example.com"],
+      "daily_report": true,
+      "anomaly_detection": true,
+      "alert_threshold_percent": 10
+    }
+  }
+}

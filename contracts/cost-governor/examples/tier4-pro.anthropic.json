@@ -1,0 +1,28 @@
+{
+  "tier": 4,
+  "name": "pro-anthropic",
+  "cost_governor": {
+    "currency": "USD",
+    "daily_soft_cap": 80.00,
+    "daily_hard_cap": 100.00,
+    "per_request_cap": 5.00,
+    "reset_timezone": "UTC",
+    "on_soft_cap": "notify-ops",
+    "on_hard_cap": "queue-requests",
+    "model_degrade_ladder": [],
+    "allowlist_tasks_under_hard_cap": [],
+    "queue_policy": {
+      "enabled": true,
+      "max_queue_depth": 200,
+      "default_ttl_seconds": 300,
+      "drop_policy": "drop-noncritical-first"
+    },
+    "spend_monitoring": {
+      "enabled": true,
+      "alert_emails": ["ops-team@example.com"],
+      "daily_report": true,
+      "anomaly_detection": false,
+      "alert_threshold_percent": 20
+    }
+  }
+}

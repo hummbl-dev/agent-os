@@ -1,0 +1,8 @@
+{
+  "event_id": "evt-004",
+  "timestamp": "2026-02-07T12:03:00Z",
+  "source": "openclaw",
+  "level": "ERROR",
+  "message": "Missing required fields",
+  "event_type": "error"
+}

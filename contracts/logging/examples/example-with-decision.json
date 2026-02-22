@@ -1,0 +1,16 @@
+{
+  "event_id": "evt-003",
+  "timestamp": "2026-02-07T12:02:00Z",
+  "task_id": "job-ghi",
+  "trace_id": "trace-rst",
+  "source": "gateway",
+  "level": "WARN",
+  "message": "Decision event",
+  "event_type": "decision",
+  "routing_decision_id": "dec-001",
+  "decision": {
+    "action": "DEGRADE",
+    "reason": "Model degraded due to quota",
+    "degraded_model": "gpt-3.5"
+  }
+}

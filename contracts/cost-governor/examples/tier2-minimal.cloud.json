@@ -1,0 +1,15 @@
+{
+  "tier": 2,
+  "name": "minimal-cloud",
+  "cost_governor": {
+    "currency": "USD",
+    "daily_soft_cap": 4.00,
+    "daily_hard_cap": 5.00,
+    "per_request_cap": 0.50,
+    "reset_timezone": "UTC",
+    "on_soft_cap": "log-only",
+    "on_hard_cap": "halt-all",
+    "model_degrade_ladder": [],
+    "allowlist_tasks_under_hard_cap": []
+  }
+}

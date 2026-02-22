@@ -1,0 +1,14 @@
+{
+  "decision_id": "dec-003",
+  "timestamp": "2026-02-07T12:12:00Z",
+  "task_id": "job-route-003",
+  "trace_id": "trace-route-003",
+  "selected_provider": "openrouter",
+  "fallback_chain": [
+    {"provider": "openrouter", "model": "gpt-4o-mini"}
+  ],
+  "constraints": {
+    "privacy_class": "internal",
+    "latency_target_ms": 900
+  }
+}

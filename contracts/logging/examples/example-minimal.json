@@ -1,0 +1,10 @@
+{
+  "event_id": "evt-001",
+  "timestamp": "2026-02-07T12:00:00Z",
+  "task_id": "job-abc",
+  "trace_id": "trace-xyz",
+  "source": "openclaw",
+  "level": "INFO",
+  "message": "Minimal log event",
+  "event_type": "request"
+}

@@ -1,0 +1,17 @@
+{
+  "decision_id": "dec-001",
+  "timestamp": "2026-02-07T12:10:00Z",
+  "task_id": "job-route-001",
+  "trace_id": "trace-route-001",
+  "selected_provider": "openrouter",
+  "selected_model": "gpt-4o-mini",
+  "fallback_chain": [
+    {"provider": "openrouter", "model": "gpt-4o-mini"},
+    {"provider": "anthropic", "model": "claude-3-haiku"}
+  ],
+  "reason_codes": ["COST_SOFT_CAP", "LATENCY_TARGET"],
+  "constraints": {
+    "privacy_class": "internal",
+    "latency_target_ms": 800
+  }
+}

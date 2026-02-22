@@ -1,0 +1,12 @@
+{
+  "status": "healthy",
+  "timestamp": "2026-02-08T04:02:00Z",
+  "service": "openclaw-runtime",
+  "summary": {
+    "total": 1,
+    "healthy": 1,
+    "degraded": 0,
+    "unhealthy": 0,
+    "unknown": 0
+  }
+}

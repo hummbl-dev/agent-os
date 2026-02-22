@@ -1,0 +1,9 @@
+p, tier1, daily, soft_cap, 10
+p, tier1, daily, hard_cap, 20
+p, tier1, per_request, cap, 5
+p, tier2, daily, soft_cap, 50
+p, tier2, daily, hard_cap, 100
+p, tier2, per_request, cap, 20
+p, tier3, daily, soft_cap, 200
+p, tier3, daily, hard_cap, 400
+p, tier3, per_request, cap, 100

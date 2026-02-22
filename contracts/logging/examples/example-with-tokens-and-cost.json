@@ -1,0 +1,16 @@
+{
+  "event_id": "evt-002",
+  "timestamp": "2026-02-07T12:01:00Z",
+  "task_id": "job-def",
+  "trace_id": "trace-uvw",
+  "source": "router",
+  "level": "DEBUG",
+  "message": "Log event with tokens and cost",
+  "event_type": "response",
+  "provider": "openrouter",
+  "model": "gpt-4",
+  "tokens_in": 100,
+  "tokens_out": 50,
+  "cost_estimate": 0.25,
+  "currency": "USD"
+}

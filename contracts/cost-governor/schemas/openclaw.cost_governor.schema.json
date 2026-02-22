@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://founder-mode.dev/schemas/openclaw.cost_governor.schema.json",
+  "title": "cost_governor",
+  "description": "Budget governor controlling daily spend caps, model degradation, task allowlisting, and request queuing.",
+  "type": "object",
+  "required": [
+    "currency",
+    "daily_soft_cap",
+    "daily_hard_cap",
+    "on_soft_cap",
+    "on_hard_cap",
+    "model_degrade_ladder",
+    "allowlist_tasks_under_hard_cap"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "currency": {
+      "type": "string",
+      "enum": ["USD", "EUR", "GBP"],
+      "description": "ISO 4217 currency code for all monetary values."
+    },
+    "daily_soft_cap": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Spend threshold that triggers the on_soft_cap action."
+    },
+    "daily_hard_cap": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Absolute spend ceiling. null means no hard cap (requires on_hard_cap='none')."
+    },
+    "per_request_cap": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Maximum estimated cost for a single request. null means no per-request limit."
+    },
+    "reset_timezone": {
+      "type": "string",
+      "default": "UTC",
+      "description": "IANA timezone for daily cap reset at midnight."
+    },
+    "on_soft_cap": {
+      "type": "string",
+      "enum": ["log-only", "degrade-model", "notify-ops", "queue-requests"],
+      "description": "Action taken when daily spend crosses daily_soft_cap."
+    },
+    "on_hard_cap": {
+      "type": "string",
+      "enum": ["halt-all", "halt-noncritical", "queue-requests", "queue-requests-defer", "none"],
+      "description": "Action taken when daily spend crosses daily_hard_cap."
+    },
+    "model_degrade_ladder": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "not": { "pattern": "^sk-" }
+      },
+      "description": "Ordered list of fallback model identifiers for degrade-model mode."
+    },
+    "allowlist_tasks_under_hard_cap": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Task identifiers permitted to proceed under halt-noncritical."
+    },
+    "queue_policy": {
+      "$ref": "#/$defs/queue_policy",
+      "description": "Queuing parameters. Required when on_soft_cap or on_hard_cap uses a queue-* action. Omit when not relevant; never null."
+    },
+    "spend_monitoring": {
+      "$ref": "#/$defs/spend_monitoring",
+      "description": "Optional spend monitoring and alerting configuration."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "on_soft_cap": { "const": "degrade-model" } },
+        "required": ["on_soft_cap"]
+      },
+      "then": {
+        "properties": {
+          "model_degrade_ladder": { "minItems": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "on_hard_cap": { "const": "halt-noncritical" } },
+        "required": ["on_hard_cap"]
+      },
+      "then": {
+        "properties": {
+          "allowlist_tasks_under_hard_cap": { "minItems": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "properties": { "on_soft_cap": { "const": "queue-requests" } },
+            "required": ["on_soft_cap"]
+          },
+          {
+            "properties": { "on_hard_cap": { "enum": ["queue-requests", "queue-requests-defer"] } },
+            "required": ["on_hard_cap"]
+          }
+        ]
+      },
+      "then": {
+        "required": ["queue_policy"]
+      }
+    }
+  ],
+  "$defs": {
+    "queue_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "max_queue_depth": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1000
+        },
+        "default_ttl_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 3600
+        },
+        "drop_policy": {
+          "type": "string",
+          "enum": ["drop-oldest", "drop-newest", "drop-noncritical-first"],
+          "default": "drop-noncritical-first"
+        }
+      }
+    },
+    "spend_monitoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "alert_emails": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "daily_report": {
+          "type": "boolean",
+          "default": false
+        },
+        "anomaly_detection": {
+          "type": "boolean",
+          "default": false
+        },
+        "alert_threshold_percent": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 15
+        }
+      }
+    }
+  }
+}

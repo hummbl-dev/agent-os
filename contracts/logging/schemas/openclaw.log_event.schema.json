@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://founder-mode.dev/schemas/openclaw.log_event.schema.json",
+  "title": "openclaw.log_event",
+  "description": "Append-only event envelope for logging runtime decisions and model operations.",
+  "type": "object",
+  "required": [
+    "event_id",
+    "timestamp",
+    "task_id",
+    "trace_id",
+    "source",
+    "level",
+    "message",
+    "event_type"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "trace_id": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "level": {
+      "type": "string",
+      "enum": ["DEBUG", "INFO", "WARN", "ERROR"]
+    },
+    "message": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "response_id": {
+      "type": "string"
+    },
+    "routing_decision_id": {
+      "type": "string"
+    },
+    "tokens_in": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tokens_out": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cost_estimate": {
+      "type": "number",
+      "minimum": 0
+    },
+    "currency": {
+      "type": "string",
+      "enum": ["USD", "EUR", "GBP"]
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": ["ALLOW", "DEGRADE", "QUEUE", "BLOCK"]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "degraded_model": {
+          "type": "string"
+        },
+        "deferred": {
+          "type": "boolean"
+        },
+        "notify": {
+          "type": "boolean"
+        },
+        "log": {
+          "type": "boolean"
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "tokens_in": { "type": "integer" }
+        },
+        "required": ["tokens_in"]
+      },
+      "then": {
+        "required": ["tokens_out"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tokens_out": { "type": "integer" }
+        },
+        "required": ["tokens_out"]
+      },
+      "then": {
+        "required": ["tokens_in"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cost_estimate": { "type": "number" }
+        },
+        "required": ["cost_estimate"]
+      },
+      "then": {
+        "required": ["currency"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": { "type": "object" }
+        },
+        "required": ["decision"]
+      },
+      "then": {
+        "properties": {
+          "decision": {
+            "required": ["action", "reason"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "event_type": { "const": "decision" }
+        },
+        "required": ["event_type"]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": ["routing_decision_id"]
+          },
+          {
+            "required": ["meta"],
+            "properties": {
+              "meta": {
+                "type": "object",
+                "required": ["routing_decision"],
+                "properties": {
+                  "routing_decision": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

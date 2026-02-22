@@ -1,0 +1,26 @@
+{
+  "decision_id": "dec-002",
+  "timestamp": "2026-02-07T12:11:00Z",
+  "task_id": "job-route-002",
+  "trace_id": "trace-route-002",
+  "selected_provider": "anthropic",
+  "selected_model": "claude-3-sonnet",
+  "fallback_chain": [
+    {"provider": "anthropic", "model": "claude-3-sonnet"},
+    {"provider": "openrouter", "model": "gpt-4o"},
+    {"provider": "ollama", "model": "llama3.1:8b"}
+  ],
+  "reason_codes": ["PRIVACY_CLASS", "QUALITY_PRIORITY"],
+  "constraints": {
+    "privacy_class": "restricted",
+    "latency_target_ms": 1200,
+    "cap_action": "DEGRADE",
+    "per_request_cap": 0.05,
+    "daily_soft_cap": 25.0,
+    "daily_hard_cap": 50.0,
+    "max_tokens": 4096
+  },
+  "cost_estimate": 0.012,
+  "currency": "USD",
+  "policy_hash": "a4be95f3c8d1f2b7"
+}

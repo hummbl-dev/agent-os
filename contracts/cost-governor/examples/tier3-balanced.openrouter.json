@@ -1,0 +1,22 @@
+{
+  "tier": 3,
+  "name": "balanced-openrouter",
+  "cost_governor": {
+    "currency": "USD",
+    "daily_soft_cap": 20.00,
+    "daily_hard_cap": 25.00,
+    "per_request_cap": 2.00,
+    "reset_timezone": "America/New_York",
+    "on_soft_cap": "degrade-model",
+    "on_hard_cap": "halt-noncritical",
+    "model_degrade_ladder": [
+      "gpt-4o-mini",
+      "claude-3-haiku"
+    ],
+    "allowlist_tasks_under_hard_cap": [
+      "health-check",
+      "billing-webhook",
+      "auth-refresh"
+    ]
+  }
+}
